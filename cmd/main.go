@@ -28,7 +28,7 @@ func main() {
 		log.Fatalf("failed to initialize db: %s", err.Error())
 	}
 
-	repos := repository.NewRepository()
+	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
 	srv := new(todo.Server)
