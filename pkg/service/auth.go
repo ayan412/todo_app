@@ -6,17 +6,18 @@ import (
 	"github.com/ayan412/zhashkevych_rest_api/todo-app"
 	"github.com/ayan412/zhashkevych_rest_api/todo-app/pkg/repository"
 	"github.com/dgrijalva/jwt-go"
+	"time"
 )
 
 const (
 	
 	salt = "img223sds74sdi"
-	signingKey = "dfad$sdf874giHdaDEtd43IRas"
+	signingKey = "der$sdf874giHdaDEtd43IRas"
 	tokenTTL = 12 * time.Hour
 )
 
 type tokenClaims struct {
-	jwt.StandartClaims
+	jwt.StandardClaims
 	UserId int `json:"user_id"`
 }
 
@@ -40,13 +41,14 @@ func (s *AuthService) GenerateToken(username, password string) (string, error) {
 		return "", err
 	}
 
-	token := jwt.NewWithClaims(jwt.SigninMethodHS256, &tokenClaims{
-		jwt.StandartClaims{
-		ExpiresAt: time.Now().Add(tokenTTL).Unix(), 
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims {
+		jwt.StandardClaims{
+		ExpiresAt: time.Now().Add(tokenTTL).Unix(),
 		IssuedAt: time.Now().Unix(),
-}, 
-	user.Id,
-})
+
+	},
+		user.Id,
+	})
 
 	return token.SignedString([]byte(signingKey))
 
